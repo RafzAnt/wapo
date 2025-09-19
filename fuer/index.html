@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Lawrence Fuerzas — Portfolio Layout</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* --- FIX: modal hidden by default --- */
+    .modal {
+      display: none; /* hide by default */
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: #111;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      color: #fff;
+      max-width: 500px;
+      width: 90%;
+      position: relative;
+    }
+
+    .modal-content img {
+      max-width: 100%;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      color: #fff;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close:hover {
+      color: #f00;
+    }
+  </style>
+</head>
+<body>
+  <div class="pattern" aria-hidden="true"></div>
+
+  <div class="card" role="main" aria-label="portfolio layout">
+    <div class="left">
+      <div class="name">LAWRENCE<br/>FUERZAS</div>
+
+      <div class="about-title">About Me</div>
+      <div class="about-text">
+        “I’m a creative Graphic Designer with experience in branding, digital design, and visual storytelling. Skilled in turning ideas into impactful designs, I focus on creating visuals that connect with audiences and bring concepts to life.”
+      </div>
+
+      <div class="projects-pill" style="margin-top:20px">Projects</div>
+
+      <div class="projects-row">
+        <div class="project" onclick="showModal('Banner Designs', 'Creative banner designs for various events and promotions, using vibrant colors and modern typography.', 'k.jpg')">
+          <img src="k.jpg" alt="Banner design example">
+          <div class="project-title">Banner<br/>Designs</div>
+        </div>
+
+        <div class="project" onclick="showModal('Web System Designs', 'User-friendly web system interfaces designed for optimal functionality and aesthetic appeal.', 's.jpg')">
+          <img src="s.jpg" alt="Web system design example">
+          <div class="project-title">Web System<br/>Designs</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="right">
+      <div class="profile-wrap" aria-hidden="false">
+        <img src="wapo.jpg" alt="Lawrence Fuerzas profile photo">
+      </div>
+      <div class="role-pill" id="role-text"></div>
+      <div style="flex:1"></div>
+    </div>
+
+    <div class="bottom">
+      <div class="skills">
+        <div class="section-title">Skills</div>
+
+        <div class="skill-row">
+          <div class="skill-name">Graphic Design</div>
+          <div class="stars" aria-hidden="true">
+            <span class="star filled"></span>
+            <span class="star filled"></span>
+            <span class="star filled"></span>
+            <span class="star filled"></span>
+            <span class="star empty"></span>
+          </div>
+        </div>
+
+        <div class="skill-row">
+          <div class="skill-name">Photo Editor</div>
+          <div class="stars" aria-hidden="true">
+            <span class="star filled"></span>
+            <span class="star filled"></span>
+            <span class="star filled"></span>
+            <span class="star empty"></span>
+            <span class="star empty"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact">
+        <div class="section-title">Contact</div>
+        <p>09702898749</p>
+        <p>Brgy. Bagtic, Catigbian, Bohol</p>
+        <p style="color:var(--muted); font-weight:600">rencefuerzas@gmail.com</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <img id="modal-image" alt="Project Image">
+      <h2 id="modal-title"></h2>
+      <p id="modal-description"></p>
+    </div>
+  </div>
+
+  <script>
+    function showModal(title, desc, imgSrc) {
+      const modalImage = document.getElementById('modal-image');
+      modalImage.src = imgSrc;
+      modalImage.onerror = function() {
+        document.getElementById('modal').style.display = 'none';
+        alert('Image not found or failed to load.');
+      };
+      document.getElementById('modal-title').textContent = title;
+      document.getElementById('modal-description').textContent = desc;
+      document.getElementById('modal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('modal').style.display = 'none';
+      document.getElementById('modal-image').src = ""; // reset src para walay ghost image
+    }
+
+    window.onclick = function(event) {
+      if (event.target == document.getElementById('modal')) {
+        closeModal();
+      }
+    }
+
+    // Typing effect for role text
+    const text = "GRAPHIC DESIGNER";
+    let index = 0;
+    let isDeleting = false;
+
+    function typeWriter() {
+      const currentText = text.substring(0, index);
+      document.getElementById('role-text').innerHTML = currentText;
+
+      if (!isDeleting) {
+        index++;
+        if (index > text.length) {
+          isDeleting = true;
+          setTimeout(typeWriter, 1000);
+          return;
+        }
+      } else {
+        index--;
+        if (index < 0) {
+          isDeleting = false;
+          setTimeout(typeWriter, 500);
+          return;
+        }
+      }
+      setTimeout(typeWriter, isDeleting ? 100 : 150);
+    }
+
+    window.onload = function() {
+      typeWriter();
+    };
+  </script>
+</body>
+</html>
